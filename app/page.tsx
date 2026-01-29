@@ -5,15 +5,19 @@ import PortfolioSection from './components/sections/PortfolioSection';
 import AboutSection from './components/sections/AboutSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/sections/FooterSection';
+import Header from './components/ui/Header';
 
 export default function Home() {
   return (
     <>
-      <HeroSection />
-      <ServicesSection />
-      <PortfolioSection />
-      <AboutSection />
-      <ContactSection />
+      <Header />
+      <main>
+        <HeroSection />
+        <ServicesSection />
+        <PortfolioSection />
+        <AboutSection />
+        <ContactSection />
+      </main>
       <Footer />
     </>
   );

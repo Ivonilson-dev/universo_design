@@ -1,58 +1,78 @@
 // app/api/sections/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getDbConnection } from '@/lib/db';
+import { query } from '@/lib/db';
 
-// GET: Buscar todas as seções ou uma específica
-export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
-    const sectionKey = searchParams.get('key');
+export async function GET() {
+    console.log('🔍 API /api/sections chamada');
 
     try {
-        const connection = await getDbConnection();
-        let query = 'SELECT * FROM page_sections';
-        let params: any[] = [];
+        console.log('📊 Executando query de seções...');
 
-        if (sectionKey) {
-            query += ' WHERE section_key = ?';
-            params.push(sectionKey);
-        }
+        const rows = await query<any[]>(
+            'SELECT * FROM page_sections ORDER BY section_key'
+        );
 
-        const [rows] = await connection.execute(query, params);
-        return NextResponse.json(rows);
-    } catch (error) {
-        console.error('Erro ao buscar seções:', error);
+        console.log(`✅ Query executada. ${rows.length} seções encontradas.`);
+
+        return NextResponse.json({
+            success: true,
+            data: rows,
+            count: rows.length
+        });
+
+    } catch (error: any) {
+        console.error('❌ ERRO na API /api/sections:', error.message);
+
         return NextResponse.json(
-            { error: 'Erro ao buscar dados' },
+            {
+                success: false,
+                error: 'Erro ao buscar seções',
+                message: process.env.NODE_ENV === 'development' ? error.message : undefined
+            },
             { status: 500 }
         );
     }
 }
 
-// PUT: Atualizar uma seção (protegido por autenticação)
 export async function PUT(request: NextRequest) {
-    // Em produção, adicione verificação de autenticação aqui
     try {
         const body = await request.json();
-        const { id, content, title } = body;
+        const { id, title, content } = body;
+
+        console.log(`📝 Atualizando seção ID: ${id}`);
 
         if (!id) {
             return NextResponse.json(
-                { error: 'ID da seção é obrigatório' },
+                { success: false, error: 'ID da seção é obrigatório' },
                 { status: 400 }
             );
         }
 
-        const connection = await getDbConnection();
-        const [result] = await connection.execute(
-            'UPDATE page_sections SET content = ?, title = ? WHERE id = ?',
-            [content, title, id]
+        await query(
+            'UPDATE page_sections SET title = ?, content = ? WHERE id = ?',
+            [title || null, content || null, id]
         );
 
-        return NextResponse.json({ success: true, result });
-    } catch (error) {
-        console.error('Erro ao atualizar seção:', error);
+        const updatedRows = await query<any[]>(
+            'SELECT * FROM page_sections WHERE id = ?',
+            [id]
+        );
+
+        return NextResponse.json({
+            success: true,
+            message: 'Seção atualizada com sucesso',
+            data: updatedRows[0] || null
+        });
+
+    } catch (error: any) {
+        console.error('❌ ERRO ao atualizar seção:', error.message);
+
         return NextResponse.json(
-            { error: 'Erro ao atualizar dados' },
+            {
+                success: false,
+                error: 'Erro ao atualizar seção',
+                message: process.env.NODE_ENV === 'development' ? error.message : undefined
+            },
             { status: 500 }
         );
     }

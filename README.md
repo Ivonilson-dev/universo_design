@@ -65,3 +65,40 @@ universo-design/
 ├── types/
 │   └── index.ts                          # Tipos TypeScript
 └── next.config.js                        # Configuração do Next.js
+
+-- 1. Criar o banco de dados
+CREATE DATABASE IF NOT EXISTS universo_design;
+USE universo_design;
+
+-- 2. Tabela para armazenar as seções de texto da landing page
+CREATE TABLE page_sections (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    section_key VARCHAR(100) NOT NULL UNIQUE, -- Ex: 'hero_title', 'services_description'
+    title VARCHAR(255),
+    content TEXT,                             -- Pode conter HTML ou texto longo
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 3. Tabela para armazenar os caminhos das imagens
+CREATE TABLE page_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image_key VARCHAR(100) NOT NULL UNIQUE,   -- Ex: 'hero_background', 'service_banner_1'
+    file_path VARCHAR(500) NOT NULL,          -- Caminho relativo, ex: '/uploads/hero-bg.jpg'
+    alt_text VARCHAR(255),                    -- Texto alternativo para acessibilidade
+    section VARCHAR(100),                     -- Seção relacionada (opcional)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4. (Opcional) Tabela de usuários para o painel admin
+CREATE TABLE admin_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5. Inserir alguns dados iniciais para as seções de texto
+INSERT INTO page_sections (section_key, title, content) VALUES
+('hero_title', 'Título Principal', 'Bem-vindo à Universo Design'),
+('hero_subtitle', 'Subtítulo', 'Criamos soluções visuais que destacam sua marca'),
+('services_description', 'Descrição dos Serviços', 'Oferecemos desde banners até materiais personalizados para eventos.');

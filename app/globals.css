@@ -1,87 +1,138 @@
-/* app/globals.css */
+/* /app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 249, 250, 251;
-  --background-end-rgb: 255, 255, 255;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
-@layer base {
-  * {
-    @apply box-border;
-  }
-  
-  html {
-    @apply scroll-smooth;
-  }
-  
-  body {
-    @apply text-gray-800 bg-gray-50 antialiased;
-  }
-  
-  h1, h2, h3, h4 {
-    @apply font-bold tracking-tight;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
   }
 }
 
-@layer utilities {
-  /* Container principal */
-  .container-main {
-    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-  
-  /* Seções com padding adequado */
-  .section-padding {
-    @apply py-16 md:py-24;
-  }
-  
-  /* Seções internas */
-  .section-inner {
-    @apply container-main section-padding;
-  }
-  
-  /* Gradientes e efeitos */
-  .gradient-text {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
-  }
-  
-  .gradient-bg {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600;
-  }
-  
-  /* Cards e containers */
-  .card-container {
-    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300;
-  }
-  
-  /* Botões */
-  .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl;
-  }
-  
-  .btn-secondary {
-    @apply inline-flex items-center justify-center px-8 py-3.5 bg-white text-gray-800 font-semibold rounded-full border border-gray-300 hover:border-gray-400 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg;
-  }
-  
-  /* Espaçamentos consistentes */
-  .content-gap {
-    @apply space-y-8 md:space-y-12;
-  }
-  
-  .grid-gap {
-    @apply gap-6 md:gap-8;
-  }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilos globais personalizados */
+.container-main {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.section-inner {
+  @apply container-main py-16 md:py-24;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-8 py-4 bg-white text-gray-800 font-semibold rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md;
+}
+
+/* Classes de utilitários do admin */
+.admin-container {
+  @apply max-w-7xl mx-auto px-4 py-8;
+}
+
+.admin-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200;
+}
+
+.admin-textarea {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-y;
+}
+
+.admin-btn-primary {
+  @apply px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg;
+}
+
+.admin-btn-secondary {
+  @apply px-6 py-3 bg-gray-100 text-gray-800 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200 border border-gray-300;
+}
+
+.admin-stats-card {
+  @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow;
+}
+
+.admin-stats-value {
+  @apply text-3xl font-bold text-gray-900;
+}
+
+.admin-stats-label {
+  @apply text-sm text-gray-600 mt-1;
+}
+
+.admin-grid {
+  @apply grid gap-6;
+}
+
+.admin-grid-3 {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.admin-loading {
+  @apply flex items-center justify-center min-h-[60vh];
+}
+
+.admin-loading-spinner {
+  @apply w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin;
+}
+
+.admin-loading-text {
+  @apply mt-4 text-lg text-gray-700 font-medium;
 }
 
 /* Animações */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
 @keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-progress {
+  animation: progress linear;
 }
 
 .animate-blob {
@@ -96,16 +147,80 @@
   animation-delay: 4s;
 }
 
-/* Scroll suave */
-html {
-  scroll-behavior: smooth;
+/* ========== ESTILOS DO PAINEL ADMIN ========== */
+
+/* Layout principal do admin */
+.admin-sidebar {
+    @apply fixed left-0 top-0 bottom-0 w-64 bg-gray-900 text-white z-40 shadow-xl;
 }
 
-/* Melhorias de acessibilidade */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+.admin-main-content {
+    @apply ml-0 lg:ml-64 min-h-screen bg-gray-50;
+}
+
+/* Itens da sidebar */
+.admin-sidebar-item {
+    @apply flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200;
+}
+
+.admin-sidebar-item-active {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+/* Container principal */
+.admin-container {
+    @apply max-w-7xl mx-auto px-4 py-8;
+}
+
+/* Inputs do admin */
+.admin-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200;
+}
+
+.admin-textarea {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-y;
+}
+
+/* Botões do admin */
+.admin-btn-primary {
+    @apply px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg;
+}
+
+.admin-btn-secondary {
+    @apply px-6 py-3 bg-gray-100 text-gray-800 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200 border border-gray-300;
+}
+
+/* Cards de estatísticas */
+.admin-stats-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow;
+}
+
+.admin-stats-value {
+    @apply text-3xl font-bold text-gray-900;
+}
+
+.admin-stats-label {
+    @apply text-sm text-gray-600 mt-1;
+}
+
+/* Grids */
+.admin-grid {
+    @apply grid gap-6;
+}
+
+.admin-grid-3 {
+    @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+/* Loading states */
+.admin-loading {
+    @apply flex items-center justify-center min-h-[60vh];
+}
+
+.admin-loading-spinner {
+    @apply w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin;
+}
+
+.admin-loading-text {
+    @apply mt-4 text-lg text-gray-700 font-medium;
 }

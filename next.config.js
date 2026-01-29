@@ -1,24 +1,30 @@
-// next.config.js
+// next.config.js - VERSÃO CORRIGIDA
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        pathname: '/**',
-      },
-    ],
+    domains: ['localhost', 'images.unsplash.com'],
+    unoptimized: true, // Para desenvolvimento
   },
-  // Remova qualquer configuração experimental relacionada ao Turbopack
+  // Configuração correta para bodyParser
   experimental: {
-    // Configurações normais, sem turbopack
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
   },
-}
+  // Para servir arquivos da pasta uploads
+  async headers() {
+    return [
+      {
+        source: '/uploads/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

@@ -10,24 +10,36 @@ export interface DBConfig {
 }
 
 function getDbConfig(): DBConfig {
-    // Pode-se expandir para diferentes ambientes (dev/prod) [citation:3]
-    return {
+    const config = {
         host: process.env.DB_HOST || 'localhost',
         port: parseInt(process.env.DB_PORT || '3306'),
         user: process.env.DB_USER || 'root',
         password: process.env.DB_PASSWORD || '',
-        database: process.env.DB_NAME || 'universo_design',
+        database: process.env.DB_NAME || 'universo_design_local',
     };
+
+    return config;
 }
 
-let connection: mysql.Connection | null = null;
-
+// Cria uma nova conexão para cada requisição
 export async function getDbConnection(): Promise<mysql.Connection> {
-    if (connection) {
-        return connection;
-    }
-
     const config = getDbConfig();
-    connection = await mysql.createConnection(config);
+
+    const connection = await mysql.createConnection(config);
     return connection;
+}
+
+// Função helper para executar queries e fechar conexão automaticamente
+export async function query<T = any>(sql: string, params?: any[]): Promise<T> {
+    let connection: mysql.Connection | null = null;
+
+    try {
+        connection = await getDbConnection();
+        const [rows] = await connection.execute(sql, params);
+        return rows as T;
+    } finally {
+        if (connection) {
+            await connection.end();
+        }
+    }
 }

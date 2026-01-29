@@ -3,8 +3,28 @@
 
 import { Palette, Tag, Gift, Users, Sparkles, Award } from 'lucide-react';
 import ServiceCard from '../ui/ServiceCard';
+import { getServicesData } from '@/lib/data-service';
+import { useState, useEffect } from 'react';
 
 export default function ServicesSection() {
+    const [servicesData, setServicesData] = useState({
+        title: 'Soluções Completas em Comunicação Visual',
+        description: 'Oferecemos tudo que sua empresa precisa para se destacar no mercado, desde materiais promocionais até sinalização completa.'
+    });
+
+    // Carregar dados do banco
+    useEffect(() => {
+        async function loadServicesData() {
+            try {
+                const data = await getServicesData();
+                setServicesData(data);
+            } catch (error) {
+                console.error('Erro ao carregar dados dos serviços:', error);
+            }
+        }
+        loadServicesData();
+    }, []);
+
     const services = [
         {
             icon: <Palette className="w-8 h-8" />,
@@ -59,17 +79,19 @@ export default function ServicesSection() {
     return (
         <section id="services" className="bg-white">
             <div className="section-inner">
-                {/* Section Header */}
+                {/* Section Header - AGORA VEM DO BANCO */}
                 <div className="text-center max-w-4xl mx-auto mb-16">
                     <div className="inline-flex items-center px-5 py-2.5 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-6 shadow-sm">
                         Nossos Serviços
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
-                        Soluções Completas em <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Comunicação Visual</span>
+                        {servicesData.title}
+                        <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
+                            {/* Texto dentro do span */}
+                        </span>
                     </h2>
                     <p className="text-xl text-gray-600 leading-relaxed">
-                        Oferecemos tudo que sua empresa precisa para se destacar no mercado,
-                        desde materiais promocionais até sinalização completa.
+                        {servicesData.description}
                     </p>
                 </div>
 

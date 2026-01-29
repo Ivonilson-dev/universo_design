@@ -3,8 +3,44 @@
 
 import { Target, Users, Award, Globe, Heart, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+
+// Interface para os dados
+interface AboutData {
+    title: string;
+    description: string;
+    mainImage: string;
+}
 
 export default function AboutSection() {
+    const [aboutData, setAboutData] = useState<AboutData>({
+        title: 'Há mais de 10 anos transformando ideias em realidade',
+        description: 'Somos uma empresa apaixonada por comunicação visual, unindo criatividade, tecnologia e qualidade para entregar soluções que realmente fazem a diferença.',
+        mainImage: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
+    });
+    const [loading, setLoading] = useState(true);
+
+    // Carregar dados do servidor
+    useEffect(() => {
+        async function loadAboutData() {
+            try {
+                // Chama a API do servidor
+                const response = await fetch('/api/data/about');
+                const data = await response.json();
+
+                if (data.success) {
+                    setAboutData(data.data);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados sobre:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadAboutData();
+    }, []);
+
     const values = [
         {
             icon: <Heart className="w-8 h-8" />,
@@ -49,6 +85,26 @@ export default function AboutSection() {
         }
     ];
 
+    if (loading) {
+        return (
+            <section id="about" className="bg-gradient-to-b from-white to-gray-50 py-20">
+                <div className="section-inner">
+                    <div className="text-center">
+                        <div className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full text-sm font-semibold mb-6">
+                            <Users className="w-4 h-4 mr-2" />
+                            Sobre Nós
+                        </div>
+                        <div className="animate-pulse">
+                            <div className="h-12 bg-gray-200 rounded-lg mb-8 max-w-3xl mx-auto"></div>
+                            <div className="h-6 bg-gray-200 rounded mb-4 max-w-2xl mx-auto"></div>
+                            <div className="h-6 bg-gray-200 rounded max-w-2xl mx-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section id="about" className="bg-gradient-to-b from-white to-gray-50">
             <div className="section-inner">
@@ -59,14 +115,17 @@ export default function AboutSection() {
                         Sobre Nós
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
-                        Há mais de <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">10 anos</span> transformando ideias em realidade
+                        {aboutData.title}
+                        <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
+                            {/* Texto dentro do span se necessário */}
+                        </span>
                     </h2>
                     <p className="text-xl text-gray-600 leading-relaxed">
-                        Somos uma empresa apaixonada por comunicação visual, unindo criatividade,
-                        tecnologia e qualidade para entregar soluções que realmente fazem a diferença.
+                        {aboutData.description}
                     </p>
                 </div>
 
+                {/* Resto do código permanece igual */}
                 <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
                     {/* Coluna esquerda - História */}
                     <div>
@@ -102,7 +161,7 @@ export default function AboutSection() {
                     <div className="relative">
                         <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                             <Image
-                                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                src={aboutData.mainImage}
                                 alt="Nosso estúdio de criação"
                                 fill
                                 className="object-cover"

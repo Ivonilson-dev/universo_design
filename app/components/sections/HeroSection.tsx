@@ -1,4 +1,4 @@
-// components/sections/HeroSection.tsx - VERSÃO COM IMAGEM ALINHADA
+// components/sections/HeroSection.tsx - VERSÃO COM API
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -10,6 +10,12 @@ export default function HeroSection() {
     const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
     const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [heroData, setHeroData] = useState({
+        title: 'Transformamos Ideias',
+        subtitle: 'Criamos soluções visuais que destacam sua marca',
+        backgroundImage: 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
+    });
+    const [loading, setLoading] = useState(true);
 
     const textContainerRef = useRef<HTMLDivElement>(null);
 
@@ -26,6 +32,28 @@ export default function HeroSection() {
     const deletingSpeed = 50;
     const pauseTime = 2000;
 
+    // Carregar dados da API
+    useEffect(() => {
+        async function loadHeroData() {
+            try {
+                console.log('📡 Buscando dados do hero...');
+                const response = await fetch('/api/data/hero');
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log('✅ Dados recebidos:', result.data);
+                    setHeroData(result.data);
+                }
+            } catch (error) {
+                console.error('❌ Erro ao carregar dados do hero:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadHeroData();
+    }, []);
+
+    // Animação de digitação
     useEffect(() => {
         const currentPhrase = phrases[currentPhraseIndex];
 
@@ -58,6 +86,26 @@ export default function HeroSection() {
         'Alta Qualidade Garantida'
     ];
 
+    if (loading) {
+        return (
+            <section id="home" className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20">
+                <div className="section-inner">
+                    <div className="grid lg:grid-cols-2 gap-16 items-start">
+                        <div className="animate-pulse">
+                            <div className="h-8 bg-gray-200 rounded-full w-48 mb-8"></div>
+                            <div className="h-16 bg-gray-200 rounded-lg mb-4"></div>
+                            <div className="h-16 bg-gray-200 rounded-lg mb-10"></div>
+                            <div className="h-6 bg-gray-200 rounded mb-4 max-w-2xl"></div>
+                        </div>
+                        <div className="animate-pulse">
+                            <div className="h-[580px] bg-gray-200 rounded-3xl"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section id="home" className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
             {/* Background elements */}
@@ -69,7 +117,7 @@ export default function HeroSection() {
 
             <div className="section-inner">
                 <div className="grid lg:grid-cols-2 gap-16 items-start">
-                    {/* Left Content - ALINHADO COM TOPO */}
+                    {/* Left Content */}
                     <div className="relative z-10 pt-8 lg:pt-12">
                         {/* Badge */}
                         <div className="inline-flex items-center px-5 py-2.5 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold mb-8 shadow-sm">
@@ -77,15 +125,15 @@ export default function HeroSection() {
                             Mais de 500 projetos entregues com excelência
                         </div>
 
-                        {/* Main Title - CONTÊINER COM ALTURA FIXA */}
+                        {/* Main Title */}
                         <div
                             ref={textContainerRef}
                             className="mb-10"
                         >
                             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                                <span className="block text-gray-900 mb-4">Transformamos</span>
+                                <span className="block text-gray-900 mb-4">{heroData.title}</span>
 
-                                {/* Texto animado - altura fixa */}
+                                {/* Texto animado */}
                                 <div className="relative inline-block min-h-[1.2em] leading-tight">
                                     {/* Texto visível */}
                                     <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -113,18 +161,17 @@ export default function HeroSection() {
                                     <div
                                         key={index}
                                         className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentPhraseIndex
-                                                ? 'bg-blue-600 w-6'
-                                                : 'bg-gray-300'
+                                            ? 'bg-blue-600 w-6'
+                                            : 'bg-gray-300'
                                             }`}
                                     />
                                 ))}
                             </div>
                         </div>
 
-                        {/* Description */}
+                        {/* Description - AGORA VEM DO BANCO via API */}
                         <p className="text-xl text-gray-600 mb-10 max-w-2xl leading-relaxed">
-                            Somos especialistas em comunicação visual criativa. Do conceito à produção,
-                            entregamos soluções que destacam sua marca e encantam seu público.
+                            {heroData.subtitle}
                         </p>
 
                         {/* Features Grid */}
@@ -180,11 +227,11 @@ export default function HeroSection() {
                         </div>
                     </div>
 
-                    {/* Right Image - ALINHADA NO TOPO */}
+                    {/* Right Image - AGORA VEM DO BANCO via API */}
                     <div className="relative lg:pt-12">
                         <div className="relative h-[580px] rounded-3xl overflow-hidden shadow-2xl">
                             <Image
-                                src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                src={heroData.backgroundImage}
                                 alt="Design criativo moderno"
                                 fill
                                 className="object-cover"
