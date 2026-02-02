@@ -67,8 +67,8 @@ universo-design/
 └── next.config.js                        # Configuração do Next.js
 
 -- 1. Criar o banco de dados
-CREATE DATABASE IF NOT EXISTS universo_design;
-USE universo_design;
+CREATE DATABASE IF NOT EXISTS universo_design_local;
+USE universo_design_local;
 
 -- 2. Tabela para armazenar as seções de texto da landing page
 CREATE TABLE page_sections (
