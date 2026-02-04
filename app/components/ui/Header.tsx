@@ -52,7 +52,7 @@ export default function Header() {
                             className="flex items-center space-x-2 text-gray-700 hover:text-blue-600"
                         >
                             <Phone className="w-5 h-5" />
-                            <span className="font-medium">(11) 99999-9999</span>
+                            <span className="font-medium">(61) 99999-9999</span>
                         </a>
                         <a href="#contact" className="btn-primary">
                             Orçamento Grátis

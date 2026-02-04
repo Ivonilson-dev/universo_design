@@ -152,7 +152,7 @@ export default function Footer() {
                                 </div>
                                 <div>
                                     <p className="font-semibold text-lg mb-1">Telefone</p>
-                                    <p className="text-gray-400">(11) 99999-9999</p>
+                                    <p className="text-gray-400">(61) 99999-9999</p>
                                 </div>
                             </div>
 
@@ -251,7 +251,7 @@ export default function Footer() {
 
             {/* WhatsApp fixo */}
             <a
-                href="https://wa.me/5511999999999"
+                href="https://wa.me/5561999999999"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="fixed bottom-8 right-8 w-20 h-20 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-2xl z-50 transition-all hover:scale-110 group"

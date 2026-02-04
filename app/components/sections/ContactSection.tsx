@@ -33,7 +33,7 @@ export default function ContactSection() {
         {
             icon: <Phone className="w-6 h-6" />,
             title: 'Telefone',
-            content: '(11) 99999-9999',
+            content: '(61) 99999-9999',
             subtitle: 'Seg a Sex, 8h às 18h'
         },
         {
@@ -45,8 +45,8 @@ export default function ContactSection() {
         {
             icon: <MapPin className="w-6 h-6" />,
             title: 'Endereço',
-            content: 'Av. Paulista, 1000',
-            subtitle: 'São Paulo - SP'
+            content: 'Quadra 02, Setor Norte',
+            subtitle: 'Planaltina - GO'
         },
         {
             icon: <Clock className="w-6 h-6" />,
