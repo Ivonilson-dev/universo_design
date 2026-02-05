@@ -39,7 +39,6 @@ export async function GET() {
         const responseData = {
             title: sectionsMap.hero_title?.title || 'Transformamos Ideias',
             subtitle: sectionsMap.hero_subtitle?.content || 'Criamos soluções visuais que destacam sua marca',
-            service: sectionsMap.services.description?.content || 'Oferecemos tudo que sua empresa precisa para se destacar no mercado, desde materiais promocionais até sinalização completa.',
             backgroundImage: heroImage?.file_path || 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
             // Dados adicionais para debug
             debug: {
