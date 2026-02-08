@@ -37,8 +37,9 @@ export async function GET() {
         console.log('🎯 Imagem do hero encontrada:', heroImage);
 
         const responseData = {
-            title: sectionsMap.hero_title?.title || 'Transformamos Ideias',
-            subtitle: sectionsMap.hero_subtitle?.content || 'Criamos soluções visuais que destacam sua marca',
+            title: sectionsMap.seção_principal?.content || 'Transformamos Ideias',
+            subtitle: sectionsMap.seção_secundária?.content || 'Criamos soluções visuais que destacam sua marca',
+            services: sectionsMap.serviçoes?.content || 'Soluções Completas em Comunicação Visual',
             backgroundImage: heroImage?.file_path || 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
             // Dados adicionais para debug
             debug: {

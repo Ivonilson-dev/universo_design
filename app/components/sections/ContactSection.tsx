@@ -96,7 +96,7 @@ export default function ContactSection() {
                                         {info.icon}
                                     </div>
                                     <h3 className="font-bold text-xl mb-3">{info.title}</h3>
-                                    <p className="text-gray-300 text-lg mb-2">{info.content}</p>
+                                    <p className="text-gray-300 text-lg mb-2 break-words">{info.content}</p>
                                     <p className="text-sm text-gray-400">{info.subtitle}</p>
                                 </div>
                             ))}
@@ -192,7 +192,7 @@ export default function ContactSection() {
                                                 onChange={handleChange}
                                                 required
                                                 className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
-                                                placeholder="(11) 99999-9999"
+                                                placeholder="(61) 99999-9999"
                                             />
                                         </div>
 
@@ -209,7 +209,7 @@ export default function ContactSection() {
                                             >
                                                 <option value="">Selecione um serviço</option>
                                                 {services.map((service, index) => (
-                                                    <option key={index} value={service}>
+                                                    <option className="text-black" key={index} value={service}>
                                                         {service}
                                                     </option>
                                                 ))}

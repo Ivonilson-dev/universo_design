@@ -281,7 +281,7 @@ export default function EditSectionsPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar seções por nome, título ou conteúdo..."
+                        placeholder="    Buscar seções por nome, título ou conteúdo..."
                         className="admin-input pl-10"
                     />
                     {searchTerm && (
@@ -296,9 +296,9 @@ export default function EditSectionsPage() {
             </div>
 
             {/* Seções agrupadas */}
-            {heroSections.length > 0 && renderSectionGroup('🏠 Seções do Hero/Banner', heroSections)}
+            {heroSections.length > 0 && renderSectionGroup('🏠 Seções principais', heroSections)}
             {serviceSections.length > 0 && renderSectionGroup('🛠️ Seções de Serviços', serviceSections)}
-            {otherSections.length > 0 && renderSectionGroup('📄 Outras Seções', otherSections)}
+            {otherSections.length > 0 && renderSectionGroup('📄 Seções', otherSections)}
 
             {/* Mensagem se não encontrar resultados */}
             {filteredSections.length === 0 && (

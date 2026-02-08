@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -21,8 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={inter.variable}>
-      <body className="font-sans antialiased">
-        <div className="min-h-screen bg-gray-50">
+      <body className="font-sans antialiased scroll-smooth">
+        <div className="min-h-screen bg-gray-50 relative">
           {children}
           <SimpleNotificationManager />
         </div>
