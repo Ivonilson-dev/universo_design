@@ -27,7 +27,7 @@ body {
 }
 
 .section-inner {
-  @apply container-main py-16 md:py-24;
+  @apply container-main py-1 md:py-1;
 }
 
 .btn-primary {

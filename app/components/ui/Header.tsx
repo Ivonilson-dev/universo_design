@@ -14,25 +14,42 @@ export default function Header() {
 
         const element = document.getElementById(sectionId);
         if (element) {
-            // Adiciona classe de destaque temporário
             element.classList.add('highlight-section');
 
-            // Scroll suave com offset para header
+            // Remove o offset para home, mantém para outros
             const headerHeight = 80;
             const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+            const offsetPosition = elementPosition + window.pageYOffset - (sectionId === 'home' ? 0 : headerHeight);
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
+            // 🚀 MUDANÇA CRÍTICA: Usa requestAnimationFrame para ser MAIS RÁPIDO que 'smooth'
+            const startPosition = window.pageYOffset;
+            const distance = offsetPosition - startPosition;
+            const duration = 600; // 600ms - mais rápido que 'smooth'
+            let startTime: number | null = null;
 
-            // Remove a classe de destaque após a animação
+            const animation = (currentTime: number) => {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+
+                // Função ease-in-out para aceleração natural
+                const ease = progress < 0.5
+                    ? 2 * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+                window.scrollTo(0, startPosition + distance * ease);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            };
+
+            requestAnimationFrame(animation);
+
             setTimeout(() => {
                 element.classList.remove('highlight-section');
-            }, 2000);
+            }, 600);
 
-            // Atualiza a seção ativa
             setActiveSection(sectionId);
         }
     };
