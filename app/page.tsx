@@ -6,7 +6,6 @@ import ServicesSection from './components/sections/ServicesSection';
 import PortfolioSection from './components/sections/PortfolioSection';
 import AboutSection from './components/sections/AboutSection';
 import ContactSection from './components/sections/ContactSection';
-import Footer from './components/ui/FooterSection';
 import Header from './components/ui/Header';
 import ScrollToTop from './components/ui/ScrollToTop';
 

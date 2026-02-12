@@ -174,19 +174,6 @@ export default function Header() {
                     )}
                 </div>
             </header>
-
-            {/* Indicador de seções ativas (Desktop only) */}
-            <div className="hidden lg:block active-section-indicator">
-                {navItems.map((item) => (
-                    <button
-                        key={item.id}
-                        onClick={() => handleNavigation(item.id)}
-                        className={`active-section-dot ${activeSection === item.id ? 'active' : ''}`}
-                        data-section={item.label}
-                        aria-label={`Ir para ${item.label}`}
-                    />
-                ))}
-            </div>
         </>
     );
 }
