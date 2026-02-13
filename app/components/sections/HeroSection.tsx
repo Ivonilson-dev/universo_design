@@ -134,7 +134,7 @@ export default function HeroSection() {
                                 <span className="block text-gray-900 mb-4">{heroData.title}</span>
 
                                 {/* Texto animado */}
-                                <div className="relative inline-block min-h-[1.2em] leading-tight">
+                                <div className="relative h-[1.5em] md:h-[1.4em] lg:h-[2em] mb-2">
                                     {/* Texto visível */}
                                     <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                         {typedText}
